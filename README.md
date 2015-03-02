@@ -1,4 +1,4 @@
-ndn-signed-data1: a simple example to show signed data
+ndn-signed-data: a simple example to show signed data
 =================================================================================
 
 These are some examples of how to program signed data.
@@ -18,7 +18,8 @@ Required:
 
 ### Build
 
-To build ndn-signed-data1 from the source:
+To build `ndn-signed-data` run the following commands from 
+`ndn-signed-data/` folder:
 
     ./waf configure
     ./waf
