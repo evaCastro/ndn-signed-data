@@ -17,8 +17,9 @@ Validator::Validator(Face& face, const std::string &confFile /* = VALIDATOR_CONF
   try {
     this->load(confFile);
   }
-  catch (const std::exception& ) {
-    std::cout << "Loading embeded config" << std::endl;
+  catch (const std::exception &e ) {
+    std::cout << "Can not load File = " << e.what() 
+      << " . Loading embeded config" << std::endl;
     std::string config =
       "rule                                                                       \n"
       "{                                                                          \n"
