@@ -45,7 +45,7 @@ consumer-signed-data1 example
               signer
               {
                 type file
-                file-name ./config/trust.cert
+                file-name ./trust.cert
               }
             }
           }
