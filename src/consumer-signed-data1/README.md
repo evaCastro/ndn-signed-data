@@ -2,7 +2,7 @@ consumer-signed-data1 example
 =============================
 
 
-- This example is a consumer: it sends Interest `/example/test`. 
+- This example is a consumer. It sends interests requesting `/example/test`. 
 
              +--------------------------------------------------------+
              |Name: /example/test                                     |
@@ -15,17 +15,18 @@ consumer-signed-data1 example
              +--------------------------------------------------------+
 
 
-  When data is received it validates its signature. 
+  When data is received it validates its signature by using a configuration
+  file which contains the validation rules. This configuration file is
+  a command line program argument. 
 
-  The validation process uses the `validation.conf` file. In this file
+  We provide an example of the configuration file in the `config/` folder: 
+  `config/validation1.conf`. In this file
   is specified that data named `/example` should be signed by an identity which 
-  its rsa-sha256 certificate is saved in a file.
+  its rsa-sha256 certificate is saved in a file `config/trust.cert`.
   This consumer can be tested with the provider application included in the 
-  `src/provider-signed-data1/` folder. This provider signs data using 
-  `/ndn/test/alice` identity, then the consumer needs the
-  `/ndn/test/alice` certificate to validate signed data. This certificate must be
-  saved in `./src/consumer-signed-data1/alice.cert` file. The rules used by
-  the validation process are written in the `validation.conf` file:
+  `src/provider-signed-data1/` folder. 
+  The rules used by
+  the validation process are written in the `validation1.conf` file:
 
           rule
           {
@@ -44,7 +45,7 @@ consumer-signed-data1 example
               signer
               {
                 type file
-                file-name ../../src/consumer-signed-data1/alice.cert
+                file-name ./config/trust.cert
               }
             }
           }
@@ -57,19 +58,19 @@ consumer-signed-data1 example
 - Run this example
 
     Before running this example we need to create the self-signed certificate to
-    validate data. In the example `src/provider-signed-data1/` the data are
-    signed by `/ndn/test/alice` identity, so we need to create 
-    its self-signed certificate and save it in 
-    `./src/consumer-signed-data1/alice.cert` file. Use
+    validate data (`./config/trust.cert` file). 
+    If we use `provider-signed-data1` with `/ndn/keys/alice` identity, the data will
+    be signed by `/ndn/keys/alice` identity, so we need to create 
+    its self-signed certificate and save it in `trust.cert` file. Use
     the following commands to create them from `ndn-signed-data/` folder:
 
-         $ ndnsec-sign-req /ndn/test/alice > ./src/consumer-signed-data1/alice.cert
+         $ ndnsec-sign-req /ndn/keys/alice > ./config/trust.cert
  
     You can check the content of the self-signed certificate by using:
 
-         $ ndnsec-dump-certificate -p -f ./src/consumer-signed-data1/alice.cert
+         $ ndnsec-dump-certificate -p -f ./config/trust.cert
 
     You can run this example from `ndn-signed-data/` folder:
 
-        ./build/src/consumer-signed-data1/consumer-signed-data1
+        ./build/bin/consumer-signed-data1/consumer-signed-data1 ./config/validation1.conf
 

@@ -10,7 +10,7 @@ class Consumer : noncopyable
 {
 public:
 
-  Consumer(): m_validator(m_face)
+  Consumer(const std::string &fileName): m_validator(m_face, fileName)
   {
   }
 
@@ -60,8 +60,8 @@ private:
   void 
   onValidationFailed(const shared_ptr<const Data>& data, const std::string& failureInfo)
   {
-    std::cerr << "Not validated data: " << data->getName() <<
-                 ". The failure info: " << failureInfo << std::endl;
+    std::cerr << "Not validated data: " << data->getName() 
+              << ". The failure info: " << failureInfo << std::endl;
   }
 
 private:
@@ -75,7 +75,14 @@ private:
 int
 main(int argc, char** argv)
 {
-  ndn::examples::Consumer consumer;
+ if (argc != 2) {
+     std::cerr << "Validation file must be specified" << std::endl;
+     std::cerr << "General use:" << std::endl;
+     std::cerr << "  " << argv[0] << " validation_file" << std::endl;
+     return 1;
+  }
+
+  ndn::examples::Consumer consumer(argv[1]);
   try {
     consumer.run();
   }

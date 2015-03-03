@@ -15,35 +15,13 @@ Validator::Validator(Face& face, const std::string &confFile /* = VALIDATOR_CONF
   : ValidatorConfig(face)
 {
   try {
+    std::cout << "OPEN File= " << confFile << std::endl; 
     this->load(confFile);
   }
   catch (const std::exception &e ) {
-    std::cout << "Can not load File = " << e.what() 
-      << " . Loading embeded config" << std::endl;
-    std::string config =
-      "rule                                                                       \n"
-      "{                                                                          \n"
-      "  id \"Example Validator\"                                                 \n"
-      "  for data                                                                 \n"
-      "  filter                                                                   \n"
-      "  {                                                                        \n"
-      "    type name                                                              \n"
-      "    name /example                                                          \n"
-      "    relation is-prefix-of                                                  \n"
-      "  }                                                                        \n"
-      "  checker                                                                  \n"
-      "  {                                                                        \n"
-      "    type fixed-signer                                                      \n"
-      "    sig-type rsa-sha256                                                    \n"
-      "    signer                                                                 \n"
-      "    {                                                                      \n"
-      "      type file                                                            \n"
-      "      file-name ./src/consumer-signed-data1/alice.cert                     \n"
-      "    }                                                                      \n"
-      "  }                                                                        \n"
-      "}                                                                          \n"
-      ;
-    this->load(config, "embededConf");
+    std::cout << "Can not load File= " << confFile << ". Error: " << e.what() 
+      <<  std::endl;
+    exit(1);
   }
 }
 
