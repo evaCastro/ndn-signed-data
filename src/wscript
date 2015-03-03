@@ -6,7 +6,7 @@ def build(bld):
     # List all directories files (example can has multiple .cpp in the directory)
     for name in bld.path.ant_glob(['*'], dir=True, src=False):
         bld(features=['cxx', 'cxxprogram'],
-            target="%s/%s" % (name, name),
+            target="../bin/%s/%s" % (name, name),
             source=bld.path.ant_glob(['%s/**/*.cpp' % name]),
             use='NDN_CXX BOOST',
             install_path=None,
