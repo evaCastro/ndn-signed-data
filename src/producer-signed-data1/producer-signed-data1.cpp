@@ -9,9 +9,14 @@ namespace examples {
 class Producer : noncopyable
 {
 public:
+  Producer(const std::string &identity): m_identity(identity)
+  {
+  }
+
   void
   run()
   {
+    std::cout << "Data will be signed by: " << m_identity << std::endl;
     std::cout << "Interest Filter:  /example/test" << std::endl;
 
     m_face.setInterestFilter("/example/test",
@@ -43,13 +48,13 @@ private:
     data->setFreshnessPeriod(time::seconds(10));
     data->setContent(reinterpret_cast<const uint8_t*>(content.c_str()), content.size());
 
-    // Use /ndn/test/alice identity to sign the data
-    // If this identity does not exist, signByIdentity will create it.
-    Name alice("/ndn/test/alice");
-    m_keyChain.signByIdentity(*data, alice);
+    m_keyChain.signByIdentity(*data, m_identity);
 
     // Return Data packet to the requester
     std::cout << ">> D: " << *data << std::endl;
+    std::cout << "Signature. KeyLocator: " <<
+                data->getSignature().getKeyLocator().getName() << std::endl;
+
 
     m_face.put(*data);
   }
@@ -67,6 +72,7 @@ private:
 private:
   Face m_face;
   KeyChain m_keyChain;
+  Name m_identity;
 };
 
 } // namespace examples
@@ -75,7 +81,16 @@ private:
 int
 main(int argc, char** argv)
 {
-  ndn::examples::Producer producer;
+  if (argc != 2) {
+     std::cerr << "Identity name must be specified" << std::endl;
+     std::cerr << "General use:" << std::endl;
+     std::cerr << "  " << argv[0] << " identity_to_sign_data" << std::endl;
+     return 1;
+  }
+
+  std::string identity(argv[1]);
+
+  ndn::examples::Producer producer(identity);
   try {
     producer.run();
   }
