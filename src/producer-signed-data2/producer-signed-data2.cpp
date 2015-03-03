@@ -70,18 +70,9 @@ private:
   {
     std::cout << "<< I Certificate: " << interest << std::endl;
 
-    //Name name = interest.getName().getPrefix(3);
     std::string nameStr = interest.getName().toUri();
     std::size_t pos = nameStr.find("/KEY/ksk-");
     Name identityName = Name(nameStr.substr(0, pos));
-
-    //Name::const_iterator i = name.begin(); 
-    //while (i != name.end() and i->toUri != KEY) {
-    //      result.append(name.at(i));
-    //      i++;
-    //}
-
-    std::cout << "Pidiendo certificate: " << identityName << std::endl;
 
     try {
       // Create Data packet
@@ -89,7 +80,7 @@ private:
              m_keyChain.getDefaultCertificateNameForIdentity(identityName));
 
       // Return Data packet to the requester
-      std::cout << ">> CERTIFICATE: " << *cert << std::endl;
+      //std::cout << ">> CERTIFICATE: " << *cert << std::endl;
       m_face.put(*cert);
     }
     catch (const std::exception& ) {
