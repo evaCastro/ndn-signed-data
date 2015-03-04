@@ -30,8 +30,6 @@ producer-signed-data2 example
    certificates which are prefix of `/ndn/keys`, if they are in the 
    keyChain. This is very useful when using no auto-signed certificates.
 
-   You can test it with the consumer provided in the `src/consumer-signed-data2/` 
-   folder.
 
 - Build this example
 
@@ -39,21 +37,25 @@ producer-signed-data2 example
 
 - Run this example
 
-    We will use `/ndn/keys/bob` identity to sign data. However, this identity has
-    a certificate signed by `/ndn/keys/alice`. Then the consumer will
-    request the `/ndn/keys/bob` certificate in order to validate data.
+  **PROVIDER**
 
-    For instance, we can create the `/ndn/keys/bob` identity 
-    using the following command:
+    For instance, the provider could use `/ndn/keys/bob` identity to sign data. 
+    This identity could be a certificate signed by another identity, `/ndn/keys/alice`. 
+    This last certificate is saved at consumer side, so the consumer will request
+    the Bob's certificate in order to validate data.
+
+    Before running provider, it is required to create certificates to sign data. 
+    For instance, the following commands can be used from `ndn-signed-data/` 
+    folder in order to create these certificates:
 
         $ ndnsec-key-gen -n /ndn/keys/bob > bob-unsigned.cert
-        $ ndnsec-cert-install -f bob-unsigned.cert
+        $ ndnsec-cert-install bob-unsigned.cert
  
     Sign this certificate by `/ndn/keys/alice` (this identity should exist
     if you have run the producer-signed-data1 before):
 
         $ ndnsec-cert-gen –s /ndn/keys/alice –N "Bob" –r bob-unsigned.cert > bob.cert
-        $ ndnsec-cert-install -f bob.cert
+        $ ndnsec-cert-install bob.cert
 
     Check Bob certificate is signed by Alice:
 
@@ -67,5 +69,69 @@ producer-signed-data2 example
     Whenever an interest with this prefix `/example/test` is received, 
     the producer returns a `<InterestPrefix>/testApp` signed data by 
     the identity `/ndn/keys/bob`. And whenever an interest with prefix `/ndn/keys`
-    is received, if the certificate of that identity exists in the keyChain, it 
-    will be returned in a Data packet.
+    is received, if the certificate of that identity exists in the keyChain, the 
+    producer returns it in a Data packet.
+
+  **CONSUMER**
+
+    Run the consumer from `ndn-signed-data/` folder using the provider-signed-data1 
+    and the validation rules in `./config/validation2.conf`:
+
+      rule
+      {
+        id "Example Validator"
+        for data
+        filter
+        {
+          type name
+          name /example
+          relation is-prefix-of
+        }
+        checker
+        {
+          type customized
+          sig-type rsa-sha256
+          key-locator
+          {
+            type name
+            name /ndn/keys/bob
+            relation is-prefix-of
+          }
+        }
+      }
+
+      rule
+      {
+        id "Example2 Validator"
+        for data
+        filter
+        {
+          type name
+          name /ndn/keys/bob
+          relation is-prefix-of
+        }
+        checker
+        {
+          type customized
+          sig-type rsa-sha256
+          key-locator
+          {
+            type name
+            name /ndn/keys/alice
+            relation is-prefix-of
+          }
+        }
+      }
+
+      trust-anchor
+      {
+        type file
+        file-name "./config/trust.cert"
+      }
+
+
+
+    Run this example from `ndn-signed-data/` folder:
+
+        ./build/bin/consumer-signed-data1/consumer-signed-data1 ./config/validation2.conf
+
