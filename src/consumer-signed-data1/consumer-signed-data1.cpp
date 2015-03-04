@@ -1,7 +1,7 @@
 /* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
 
 #include <ndn-cxx/face.hpp>
-#include "validator.hpp"
+#include <ndn-cxx/security/validator-config.hpp>
 
 namespace ndn {
 namespace examples {
@@ -10,8 +10,18 @@ class Consumer : noncopyable
 {
 public:
 
-  Consumer(const std::string &fileName): m_validator(m_face, fileName)
+  Consumer(const std::string &fileName): m_validator(m_face)
   {
+      try {
+        std::cout << "OPEN File= " << fileName << std::endl;
+        m_validator.load(fileName);
+      }
+      catch (const std::exception &e ) {
+        std::cout << "Can not load File= " << fileName << ". Error: " << e.what()
+          <<  std::endl;
+        exit(1);
+      }
+
   }
 
   void
@@ -66,7 +76,7 @@ private:
 
 private:
   Face m_face;
-  examples::Validator m_validator; 
+  ndn::ValidatorConfig m_validator; 
 };
 
 } // namespace examples
