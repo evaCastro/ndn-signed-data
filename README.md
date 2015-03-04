@@ -6,6 +6,7 @@ These are some simple examples of how to program signed data.
 1. Producer/consumer: consumer requests data, producer provides signed data using a 
    self-signed certificate. When consumer gets data, it checks the signature by using 
    a file that contains a self-signed certificate.
+   ![alt tag](https://github.com/evaCastro/ndn-signed-data/blob/master/imgs/ndn-sign-data-03.png)
 
    ![alt tag](https://github.com/evaCastro/ndn-signed-data/blob/master/imgs/ndn-sign-data-01.png)
    More information:
@@ -16,6 +17,7 @@ These are some simple examples of how to program signed data.
    a second party signed certificate. When consumer gets data, it requests the 
    second party signed certificate to validate the data which will be also provided by
    producer.
+   ![alt tag](https://github.com/evaCastro/ndn-signed-data/blob/master/imgs/ndn-sign-data-04.png)
 
    ![alt tag](https://github.com/evaCastro/ndn-signed-data/blob/master/imgs/ndn-sign-data-02.png)
    More information information:
