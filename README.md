@@ -26,10 +26,15 @@ These are some simple examples of how to program signed data.
    Validation process at consumer:
 
    ![alt tag](https://github.com/evaCastro/ndn-signed-data/blob/master/imgs/ndn-sign-data-02.png)
+
    More information information:
        - producer-signed-data2 [`src/producer-signed-data2/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/producer-signed-data2/README.md)
-       - consumer-signed-data2 [`src/consumer-signed-data2/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/consumer-signed-data2/README.md).
 
+3. Producer/consumer: consumer requests data, producer provides signed data using
+   hierarchical certificate model, similar to NDN testbed model.
+
+   More information information:
+       - producer-signed-data3 [`src/producer-signed-data3/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/producer-signed-data3/README.md)
 
 Installation instructions
 -------------------------
