@@ -81,9 +81,8 @@ producer-signed-data2 example
 
   *CONSUMER*
 
-    Run the consumer from `ndn-signed-data/` folder using the provider-signed-data1 and
-    the validation rules in `./config/validation3.conf`:
-
+    a) Run the consumer from `ndn-signed-data/` folder using the provider-signed-data1 and
+      the validation rules in `./config/validation-3a.conf`:
 
         rule
         {
@@ -161,7 +160,55 @@ producer-signed-data2 example
         }
 
 
-    Run the consumer:
+      Run the consumer:
 
-        $ ./build/bin/consumer-signed-data1/consumer-signed-data1 ./config/validation3.conf
+        $ ./build/bin/consumer-signed-data1/consumer-signed-data1 ./config/validation-3a.conf
 
+    b) Run the consumer from `ndn-signed-data/` folder using the provider-signed-data1 and
+      the validation rules in `./config/validation-3b.conf`, which defines a 
+      hierarchical model:
+
+       rule
+       {
+         id "Example Validator"
+         for data
+         filter
+         {
+           type name
+           name /example
+           relation is-prefix-of
+         }
+         checker
+         {
+           type customized
+           sig-type rsa-sha256
+           key-locator
+           {
+             type name
+             name /ndn/keys/site1/node1/KEY/app1
+             relation is-prefix-of
+           }
+         }
+       }
+
+       rule
+       {
+         id "Testbed Validation Rule"
+         for data
+         checker
+         {
+           type hierarchical
+           sig-type rsa-sha256
+         }
+       }
+
+       trust-anchor
+       {
+         type file
+         file-name "./root-site1.cert"
+       }
+
+
+      Run the consumer:
+
+        $ ./build/bin/consumer-signed-data1/consumer-signed-data1 ./config/validation-3b.conf
