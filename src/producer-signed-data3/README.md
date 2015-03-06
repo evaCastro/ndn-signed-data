@@ -212,3 +212,100 @@ producer-signed-data2 example
       Run the consumer:
 
         $ ./build/bin/consumer-signed-data1/consumer-signed-data1 ./config/validation-3b.conf
+
+    c) Run the consumer from `ndn-signed-data/` folder using the provider-signed-data1 and
+      the validation rules in `./config/validation-3cb.conf`, which defines a 
+      hierarchical model by using regular expression (see 
+      http://named-data.net/doc/ndn-cxx/0.3.0/tutorials/security-validator-config.html):
+
+       rule
+       {
+         id "First rule: Example Validator"
+         for data
+         filter
+         {
+           type name
+           name /example
+           relation is-prefix-of
+         }
+         checker
+         {
+           type customized
+           sig-type rsa-sha256
+           key-locator
+           {
+             type name
+             name /ndn/keys/site1/node1/KEY/app1
+             relation is-prefix-of
+           }
+         }
+       }
+
+       rule
+       {
+         id "Second rule: Example Regex Validation Rule"
+         for data
+         checker
+         {
+           type customized
+           sig-type rsa-sha256
+           key-locator
+           {
+             type name
+             hyper-relation
+             {
+               k-regex ^([^<KEY>]*)<KEY>(<>*)<ksk-.*><ID-CERT>
+               k-expand \\1\\2
+               h-relation is-prefix-of
+               p-regex ^(<>*)$
+               p-expand \\1
+             }
+           }
+         }
+       }
+
+       trust-anchor
+       {
+         type file
+         file-name "./root-site1.cert"
+       }
+
+      The "Example Regex Validation Rule" requires the packet name must be under the
+      corresponding namespace of the `KeyLocator` name. Then, when a packet named with
+      prefix `/example` is received, the following rule is applied:
+
+      First Rule:
+      ===========
+      Name: /example
+      KeyLocator: /ndn/keys/site1/node1/KEY/app1/ksk-<number>/ID-CERT
+      
+      Then, the following key is requested in an interest packet: 
+      `/ndn/keys/site1/node1/KEY/app1/ksk-<number>/ID-CERT`. When it is received the
+      following rule is applied:
+      
+      Second Rule: 
+      ===========
+      Name: /ndn/keys/site1/node1/KEY/app1/ksk-<number>/ID-CERT
+      KeyLocator: /ndn/keys/site1/KEY/node1/ksk-<number>/ID-CERT
+
+      Where \\1=`/ndn/keys/site1` of KeyLocator is prefix of 
+      `/ndn/keys/site1/node1/KEY/app1/ksk-<number>/ID-CERT`
+      
+      Then, the following key is requested in an interest packet: 
+      `/ndn/keys/site1/KEY/node1/ksk-<number>/ID-CERT`. When it is received the
+      following rule is applied:
+      
+      Second Rule: 
+      ===========
+      Name: /ndn/keys/site1/KEY/node1/ksk-<number>/ID-CERT
+      KeyLocator: /ndn/keys/site1/KEY/ksk-<number>/ID-CERT
+
+      Where \\1=`/ndn/keys/site1` of KeyLocator is prefix of 
+      `/ndn/keys/site1/KEY/node1/ksk-<number>/ID-CERT`
+ 
+      And now, the key `/ndn/keys/site1/KEY/ksk-<number>/ID-CERT` is saved
+      in trust anchor file.
+
+      Run the consumer:
+
+        $ ./build/bin/consumer-signed-data1/consumer-signed-data1 ./config/validation-3c.conf
