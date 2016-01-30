@@ -293,11 +293,11 @@ producer-signed-data3 example
       
       DATA PACKET:
         Name: /ndn/keys/site1/KEY/node1/ksk-<number>/ID-CERT
-        KeyLocator: /ndn/keys/site1/KEY/ksk-<number>/ID-CERT
+        KeyLocator: /ndn/keys/KEY/site1/ksk-<number>/ID-CERT
 
     The second rule is applied, where \\1=`/ndn/keys/site1` (from KeyLocator) is prefix of 
     `/ndn/keys/site1/KEY/node1/ksk-<number>/ID-CERT` (data name).  
-    And now, the key `/ndn/keys/site1/KEY/ksk-<number>/ID-CERT` is saved
+    And now, the key `/ndn/keys/KEY/site1/ksk-<number>/ID-CERT` is saved
     in trust anchor file.
 
 
