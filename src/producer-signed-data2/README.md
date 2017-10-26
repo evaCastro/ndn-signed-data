@@ -26,13 +26,14 @@ producer-signed-data2 example
              |SignatureValue: <signature_256_bits>                    |
              +--------------------------------------------------------+
 
-   It is not always feasible for a consumer to have a priori knowledge 
-   about the signing key of all the received data packets.  In this case, 
-   a consumer needs to retrieve the public key bits of a signing key 
-   according to the key-locator information specified in a data packet. 
-   For this reason, this producer filters `/ndn/keys` interests to provide
-   certificates which are prefix of `/ndn/keys`, if they are in the 
-   keyChain. This is very useful when using no auto-signed certificates.
+   It is not always feasible for a consumer to have a priori knowledge
+   about the signing key of all the received data packets.  In this
+   case, a consumer needs to retrieve the public key bits of a signing
+   key according to the key-locator information specified in a data
+   packet.  For this reason, this producer filters `/ndn/keys`
+   interests to provide certificates with name prefix `/ndn/keys`. It
+   retrieves them from the keyChain stored in disk. This is very
+   useful when using no auto-signed certificates.
 
 
 - Build this example
