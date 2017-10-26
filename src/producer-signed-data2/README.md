@@ -44,25 +44,30 @@ producer-signed-data2 example
 
   **PROVIDER**
 
-    For instance, the provider could use `/ndn/keys/bob` identity to sign data. 
-    This identity could be a certificate signed by another identity, `/ndn/keys/alice`. 
-    This last certificate is saved at consumer side, so the consumer will request
-    the Bob's certificate in order to validate data.
+    For instance, the provider could use `/ndn/keys/bob` identity to
+    sign data.  This identity could be a certificate signed by another
+    identity, `/ndn/keys/alice`.  Alice's certificate is saved in a
+    file at the consumer side as a trust anchor. Upon receiving a data
+    packet signed by Bob, the consumer will send an interest to
+    retrieve Bob's certificate, that is also produced by the provider.
 
-    Before running provider, it is required to create certificates to sign data. 
-    For instance, the following commands can be used from `ndn-signed-data/` 
-    folder in order to create these certificates:
+    Before running provider, it is required to create certificates to
+    sign data.  For instance, the following commands can be run from
+    the `ndn-signed-data/` folder in order to create these
+    certificates and install/store them in the keychain:
 
         $ ndnsec-key-gen -n /ndn/keys/bob > bob-unsigned.cert
         $ ndnsec-cert-install bob-unsigned.cert
  
-    Sign this certificate by `/ndn/keys/alice` (this identity should exist
-    if you have run the producer-signed-data1 before):
+    Sign Bob's public key (stored in the previous unsigned
+    certificate) with `/ndn/keys/alice` (this identity should already
+    exist in the keychain if you have run the producer-signed-data1
+    before):
 
         $ ndnsec-cert-gen –s /ndn/keys/alice –N "Bob" –r bob-unsigned.cert > bob.cert
         $ ndnsec-cert-install bob.cert
 
-    Check Bob certificate is signed by Alice:
+    Check if Bob's certificate is effectively signed by Alice:
 
         $ ndnsec-dump-certificate -p -i /ndn/keys/bob
 
