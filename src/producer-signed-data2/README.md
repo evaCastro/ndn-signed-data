@@ -63,7 +63,7 @@ producer-signed-data2 example
 
     Check Bob certificate is signed by Alice:
 
-        $ ndnsec-dump-cert -p -i /ndn/keys/bob
+        $ ndnsec-dump-certificate -p -i /ndn/keys/bob
 
     Run this example from `ndn-signed-data/` folder using the previous
     identity:
