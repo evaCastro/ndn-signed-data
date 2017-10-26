@@ -13,8 +13,9 @@ These are some simple examples of how to program signed data.
 
    ![alt tag](https://github.com/evaCastro/ndn-signed-data/blob/master/imgs/ndn-sign-data-01.png)
    More information:
-       - producer-signed-data1 [`src/producer-signed-data1/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/producer-signed-data1/README.md)
-       - consumer-signed-data1 [`src/consumer-signed-data1/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/consumer-signed-data1/README.md).
+
+   * producer-signed-data1 [`src/producer-signed-data1/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/producer-signed-data1/README.md)
+   * consumer-signed-data1 [`src/consumer-signed-data1/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/consumer-signed-data1/README.md).
 
 2. Producer/consumer: consumer requests data, producer provides signed data using
    a second party signed certificate. When consumer gets data, it requests the 
@@ -28,7 +29,8 @@ These are some simple examples of how to program signed data.
    ![alt tag](https://github.com/evaCastro/ndn-signed-data/blob/master/imgs/ndn-sign-data-02.png)
 
    More information information:
-       - producer-signed-data2 [`src/producer-signed-data2/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/producer-signed-data2/README.md)
+
+   * producer-signed-data2 [`src/producer-signed-data2/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/producer-signed-data2/README.md)
 
 3. Producer/consumer: consumer requests data, producer provides signed data using
    hierarchical certificate model, similar to NDN testbed model.
@@ -39,7 +41,8 @@ These are some simple examples of how to program signed data.
    ![alt tag](https://github.com/evaCastro/ndn-signed-data/blob/master/imgs/ndn-sign-data-05.png)
 
    More information information:
-       - producer-signed-data3 [`src/producer-signed-data3/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/producer-signed-data3/README.md)
+
+   * producer-signed-data3 [`src/producer-signed-data3/README.md`](https://github.com/evaCastro/ndn-signed-data/blob/master/src/producer-signed-data3/README.md)
 
 Installation instructions
 -------------------------
