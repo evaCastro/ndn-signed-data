@@ -77,6 +77,6 @@ consumer-signed-data1 example
         ./build/bin/consumer-signed-data1/consumer-signed-data1 ./config/validation1.conf
 
 
-    Note: The signed data will be also validated if `./config/trust.cert` would
-          contain a non self-signed certificate of `/ndn/keys/alice` identity, 
-          since I will trust in the certificate of this file.
+    Note: The signed data would also be validated in the case `./config/trust.cert` contained
+          a non self-signed certificate of `/ndn/keys/alice` identity, 
+          since the application trusts the certificate of this file, whatever its signature.
