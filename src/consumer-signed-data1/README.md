@@ -20,11 +20,13 @@ consumer-signed-data1 example
   a command line program argument. 
 
   We provide an example of the configuration file in the `config/` folder: 
-  `config/validation1.conf`. In this file
+  `config/validation1.conf`. In this file it
   is specified that data named `/example` should be signed by an identity which 
-  its rsa-sha256 certificate is saved in a file `config/trust.cert`.
-  This consumer can be tested with the provider application included in the 
+  is an rsa-sha256 certificate that is saved in a file `config/trust.cert`.
+
+  This consumer can be tested with the producer application included in the 
   `src/provider-signed-data1/` folder. 
+
   The rules used by
   the validation process are written in the `validation1.conf` file:
 
