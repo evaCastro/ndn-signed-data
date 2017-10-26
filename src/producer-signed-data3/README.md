@@ -81,6 +81,8 @@ producer-signed-data3 example
 
   *CONSUMER*
 
+    There are 3 different ways to configure the validation at the consumer:
+
     a) Run the consumer from `ndn-signed-data/` folder using the provider-signed-data1 and
       the validation rules in `./config/validation-3a.conf`:
 
